@@ -81,9 +81,21 @@ def display_teams(teams):
     for index, team in enumerate(teams,1):
         print("{}.) {}".format(index, team["name"]))
 
-    display_team(teams[0])
-    display_team(teams[1])
-    display_team(teams[2])
+    team_selected = False
+
+    while not team_selected:
+        try:
+            user_input = int(get_user_input())
+        except ValueError as err:
+            print("We experienced an error with your selection ({}). Please try again.".format(err))
+        else:
+            if (user_input >= 1 and user_input <= len(teams)):
+                display_team(teams[user_input-1])
+                team_selected = True
+            else:
+                print("You did not select a valid option. Please try again.")
+            
+    
 
 def display_team(team):
     """
@@ -124,10 +136,19 @@ if __name__ == "__main__":
     quit = False
 
     while not quit:
+
         display_menu()
         
-        if int(get_user_input()) == 1:
-            display_teams(teams)
+        try:
+            user_input = int(get_user_input())
+        except ValueError:
+            print("We experienced an error with your input. Please try entering a number.")
         else:
-            quit = True
+            if user_input == 1:
+                display_teams(teams)
+            elif user_input == 2:
+                quit = True
+            else:
+                print("You did not select a valid option. Please try again.")
+            
 
